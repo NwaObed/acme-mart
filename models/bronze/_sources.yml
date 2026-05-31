@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: google_sales_data
+    schema: GOOGLE_DRIVE_SALES
+    description: Sources from google drive sales folder
+    tables:
+
+      - name: csv_sales
