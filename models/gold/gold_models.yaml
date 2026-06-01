@@ -1,0 +1,113 @@
+version: 2
+
+models:
+  - name: dim_product
+    description: "Product dimension containing product details and category."
+    columns:
+      - name: product_id
+        description: "Unique product identifier."
+        tests:
+          - unique
+          - not_null
+
+      - name: product_name
+        description: "Name of the product."
+        tests:
+          - not_null
+
+      - name: category
+        description: "Product category."
+        tests:
+          - not_null
+
+  - name: dim_customer
+    description: "Customer dimension."
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_store
+    description: "Store dimension."
+    columns:
+      - name: store_id
+        description: "Unique store identifier."
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_payment_method
+    description: "Payment method dimension."
+    columns:
+      - name: payment_method_id
+        description: "Unique payment method identifier."
+        tests:
+          - unique
+          - not_null
+
+      - name: payment_method
+        description: "Payment method used for the transaction."
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_sales
+    description: "Sales fact table containing transaction-level sales measures."
+    columns:
+      - name: transaction_id
+        description: "Unique transaction identifier."
+        tests:
+          - unique
+          - not_null
+
+      - name: product_id
+        description: "Foreign key to dim_product."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+
+      - name: customer_id
+        description: "Foreign key to dim_customer."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+
+      - name: store_id
+        description: "Foreign key to dim_store."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_store')
+              field: store_id
+
+      - name: payment_method_id
+        description: "Foreign key to dim_payment_method."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_payment_method')
+              field: payment_method_id
+
+      - name: quantity
+        description: "Number of units sold."
+        tests:
+          - not_null
+
+      - name: unit_price
+        description: "Price per unit."
+        tests:
+          - not_null
+
+      - name: total_amount
+        description: "Total sales amount for the transaction."
+        tests:
+          - not_null
+
+      - name: ab_source_file
+        description: "Source file the transaction was loaded from."
