@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: data_quality_checks
+    columns:
+      - name: category
+        description: This is the product category sold
+        data_tests:
+          - not_null
+
+      - name: quantity
+        description: The number of product purchased
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+      
+      - name: store_id
+        description: This is a unique identifier for the store that made the sales
+        data_tests:
+          - not_null
+      
+      - name: product_id
+        description: This is the unique identifier for the product sold
+        data_tests:
+          - not_null
+
+      - name: unit_price
+        description: The unit cost of the product sold
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+
+      - name: product_name
+        description: The name of the product sold
+        data_tests:
+          - not_null
+
+      - name: total_amount
+        description: The amount paid for all the products bought
+        data_tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "total_amount >= 0 AND total_amount = quantity * unit_price"
+      
+      - name: payment_method
+        description: This explains the medium payment was received
+        data_tests:
+          - not_null
+        
+      - name: transaction_id
+        description: This gives the unique identifier for each transaction initiated
+        data_tests:
+          - not_null
+          - unique
+          
+      - name: ab_source_file
+        description: This describes the origional data source
+        data_tests:
+          - not_null
+          
